@@ -1,15 +1,17 @@
+import { API_KEY, API_URL } from './config.js';
+import { getJSON } from './helpers.js';
+
 export const state = {
   recipe: {}, // get updated by loadRecipe function
+  search: {
+    query: '',
+    results: [],
+  },
 };
 
 export const loadRecipe = async function (id) {
   try {
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}?key=8c4dd295-de13-4bbc-a087-80f7a733d074`
-    );
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+    const data = await getJSON(`${API_URL}/${id}?key=${API_KEY}`);
 
     const { recipe } = data.data;
     state.recipe = {
@@ -24,6 +26,28 @@ export const loadRecipe = async function (id) {
     };
     console.log(state.recipe);
   } catch (err) {
-    alert(err);
+    // Temp error handling
+    console.error(`${err} 🤦‍♂️🤦‍♂️🤦‍♂️`);
+    throw err;
   }
 };
+
+export const loadSearchResults = async function (query) {
+  try {
+    state.search.query = query;
+    const data = await getJSON(`${API_URL}?search=${query}`);
+
+    state.search.results = data.data.recipes.map(rec => {
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image_url,
+      };
+    });
+  } catch (err) {
+    console.error(`${err} 🤦‍♂️🤦‍♂️🤦‍♂️`);
+    throw err;
+  }
+};
+loadSearchResults();
