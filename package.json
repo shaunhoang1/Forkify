@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "fractional": "^1.0.0",
+    "fracty": "^1.0.9",
     "node-gyp-build": "^4.3.0"
   },
   "devDependencies": {
