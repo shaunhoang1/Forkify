@@ -6,7 +6,7 @@
     "start": "parcel index.html",
     "build": "parcel build index.html"
   },
-  "author": "",
+  "author": "Minh Tuan Hoang",
   "license": "ISC",
   "description": "",
   "dependencies": {
